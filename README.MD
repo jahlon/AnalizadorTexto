@@ -13,6 +13,7 @@ análisis debe tener en cuenta lo siguiente:
 "Usted" deben contar como la misma palabra.
 - En el listado deben aparecer primero las palabras con mayor frecuencia, sin embargo, no 
 existe un orden específico para listar las palabras que tengan la misma frecuencia.
+- Se asume que el texto solo tiene líneas separadas por un salto de línea simple `\n`.
 
 > ### Ejemplo
 > Dado el siguiente texto para analizar:
@@ -86,7 +87,7 @@ se lo asigna al atributo `nombre`.
 3. El método `_separar_palabras` de la clase `ReglaAnalisis` implementa la lógica para separar las palabras
 del texto recibido como parámetro y devolverlas como una lista. Las palabras no deben incluir puntuación. Por ejemplo, 
 si se separan las palabras del texto `Hola, ¿cómo estás?`, el resultado sería la lista `['Hola', 'cómo', 'estás']`.  
->**Pista:** puedes utilizar los métodos `lower()`, `split()` y `strip()` de la clase `str`.
+>**Pista:** puedes utilizar los métodos `lower()`, `split()`, `strip()` y `replace()` de la clase `str`.
 4. La clase `ReglaPalabraMasUsada` debe inicializarse pasando como parámetro a la superclase el nombre 
 `'palabras_ordenadas'`. El método `analizar` debe retornar una lista de str con las 10 palabras más usadas del texto.  
 >**Pista:** puedes utilizar la función `sorted` que sirve para ordenar un iterable.</mark>
