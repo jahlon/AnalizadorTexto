@@ -80,3 +80,54 @@ siguiente diseño para el analizador de texto:
 Tu misión es implementar el modelo planteado por el arquitecto de software. Para lograrlo
 debes tener en cuenta lo siguiente:
 
+1. La clase `ReglaAnalisis` es una clase abstracta y su método `analizar` es igualmente abstracto.
+2. El método inicializador de la clase `ReglaAnalisis` recibe el nombre de la regla como parámetro y
+se lo asigna al atributo `nombre`.
+3. El método `_separar_palabras` de la clase `ReglaAnalisis` implementa la lógica para separar las palabras
+del texto recibido como parámetro y devolverlas como una lista. Las palabras no deben incluir puntuación. Por ejemplo, 
+si se separan las palabras del texto `Hola, ¿cómo estás?`, el resultado sería la lista `['Hola', 'cómo', 'estás']`.  
+>**Pista:** puedes utilizar los métodos `lower()`, `split()` y `strip()` de la clase `str`.
+4. La clase `ReglaPalabraMasUsada` debe inicializarse pasando como parámetro a la superclase el nombre 
+`'palabras_ordenadas'`. El método `analizar` debe retornar una lista de str con las 10 palabras más usadas del texto.  
+>**Pista:** puedes utilizar la función `sorted` que sirve para ordenar un iterable.</mark>
+> 
+> Por ejemplo, si tuvieras el siguiente diccionario
+> 
+> `my_dict = {'hola': 1, 'es': 2, 'frío': 1, 'mucho': 3}`
+> 
+> y quisieras ordenarlo por valor de mayor a menor, para que quedara así:
+> 
+> `{'mucho': 3, 'es': 2, 'hola': 1, 'frío': 1}`
+> 
+> Podrías utilizar la función `sorted` de la siguiente manera:
+> 
+> `mi_dict_ordenado = sorted(mi_dict, key=lambda item: item[1], reverse=True)`
+> 
+> Puedes consultar la documentación de la función `sorted` aquí:
+> https://docs.python.org/es/3/library/functions.html#sorted
+5. La clase `ReglaConteoPalabras` debe inicializarse pasando como parámetro a la superclase el nombre 
+`'conteo_palabras'`. El método `analizar` debe retornar un entero que indica la cantidad de palabras del texto.
+6. La clase `ReglaTiempoLectura` debe inicializarse pasando como parámetro a la superclase el nombre
+`'tiempo_lectura'`. Esta clase define una constante llamada `TASA_LECTURA` de tipo entero y con el valor 238. Además, 
+el método `analizar` debe retornar una tupla de dos enteros, donde el primer valor indica los 
+minutos y el segundo valor indica los segundos que se demora una persona en leer el texto. Para este cálculo debes
+seguir las indicaciones que se dan en la descripción de la regla de tiempo de lectura.
+> **Pista:** puedes utilizar la función `modf` del módulo `math` para obtener la parte entera y la parte decimal 
+> de un número
+7. La clase `Analizador` tiene un atributo `reglas` que es una lista de objetos de la clase `ReglaAnalisis`.
+En la inicialización de la clase se debe agregar un objeto de cada una de las tres reglas de análisis a la lista
+de reglas. El método `procesar` debe recorrer la lista de reglas y debe retornar un diccionario donde las claves son
+los nombres de las reglas y los valores son los resultados de aplicar la regla (llamar el método `analizar`).
+
+Para realizar la actividad, puedes clonar este repositorio e implementar el código en el archivo `analizador.py` que
+se encuentra en el paquete `analizador.modelo`
+
+## Ten en cuenta
+
+* El proyecto incluye un conjunto de pruebas que puedes utilizar para verificar el cumplimiento de los 
+requisitos establecidos. Para ejecutar las pruebas, debes instalar la dependencia pytest.
+* Para que las pruebas funcionen adecuadamente debes implementar el código respetando los nombres y la 
+definición de las clases y los métodos que se presentan en el diagrama.
+* La evaluación del ejercicio se hará con base en el cumplimiento de los requisitos que arrojen las 
+pruebas. Por lo tanto, cualquier fallo en las pruebas debido a nombres mal escritos o que no concuerden
+con el modelo dado se considerará como un requisito no cumplido, afectando la calificación del examen.
