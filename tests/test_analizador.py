@@ -81,3 +81,23 @@ def test_clase_ReglaAnalisis_tiene_metodo_abstracto(module_members_elements):
         pytest.fail("ReglaAnalisis class not defined")
 
     assert "analizar" in module_members_elements["ReglaAnalisis"].__dict__['__abstractmethods__']
+
+
+def test_clase_ReglaAnalisis_tiene_atributo_nombre(module_members_elements):
+    class_name = "ReglaPalabrasMasUsadas"
+    class_object = module_members_elements[class_name]()
+    fields = dir(super(module_members_elements[class_name], class_object))
+
+    assert "nombre" in fields
+
+
+@pytest.mark.parametrize("class_name, attribute_name", [
+    ("Analizador", "reglas"),
+    ("ReglaTiempoLectura", "TASA_LECTURA")
+])
+def test_clase_contiene_atributo(module_members_elements, class_name, attribute_name):
+    if class_name not in module_members_elements.keys():
+        pytest.fail(f"{class_name} not defined")
+
+    fields = dir(module_members_elements[class_name]())
+    assert attribute_name in fields
