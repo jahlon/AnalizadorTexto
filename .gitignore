@@ -1,3 +1,5 @@
 venv
 .venv
 .idea
+/analizador/entregas/
+/tests/resultados/
