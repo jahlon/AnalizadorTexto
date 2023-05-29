@@ -85,44 +85,74 @@ def analizador(analizador_module):
 
 # Test for the existence of elements within the module ---------------------------------------
 
-@pytest.mark.parametrize("class_name", [
-    "ReglaAnalisis",
-    "ReglaPalabrasMasUsadas",
-    "ReglaConteoPalabras",
-    "ReglaTiempoLectura",
-    "Analizador"
-])
-def test_modulo_contiene_clase(module_members_elements, class_name):
-    assert class_name in module_members_elements.keys()
+def test_modulo_contiene_clase_ReglaAnalisis(module_members_elements):
+    assert "ReglaAnalisis" in module_members_elements.keys()
 
 
-@pytest.mark.parametrize("class_name, method_name", [
-    ("ReglaAnalisis", "__init__"),
-    ("ReglaAnalisis", "_separar_palabras"),
-    ("ReglaAnalisis", "__init__"),
-    ("ReglaPalabrasMasUsadas", "__init__"),
-    ("ReglaPalabrasMasUsadas", "analizar"),
-    ("ReglaConteoPalabras", "__init__"),
-    ("ReglaConteoPalabras", "analizar"),
-    ("ReglaTiempoLectura", "__init__"),
-    ("ReglaTiempoLectura", "analizar"),
-    ("Analizador", "__init__"),
-    ("Analizador", "procesar"),
-])
-def test_clase_contiene_metodo(module_members_elements, class_name, method_name):
+def test_modulo_contiene_clase_ReglaPalabrasMasUsadas(module_members_elements):
+    assert "ReglaPalabrasMasUsadas" in module_members_elements.keys()
+
+
+def test_modulo_contiene_clase_ReglaConteoPalabras(module_members_elements):
+    assert "ReglaConteoPalabras" in module_members_elements.keys()
+
+
+def test_modulo_contiene_clase_ReglaTiempoLectura(module_members_elements):
+    assert "ReglaTiempoLectura" in module_members_elements.keys()
+
+
+def test_modulo_contiene_clase_Analizador(module_members_elements):
+    assert "Analizador" in module_members_elements.keys()
+
+
+@pytest.mark.parametrize("method_name", ["__init__", "_separar_palabras", "analizar"])
+def test_clase_ReglaAnalisis_contiene_metodos(module_members_elements, method_name):
+    class_name = "ReglaAnalisis"
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} class not defined")
 
     assert method_name in module_members_elements[class_name].__dict__.keys()
 
 
-@pytest.mark.parametrize("super_class_name, sub_class_name", [
-    ("ABC", "ReglaAnalisis"),
-    ("ReglaAnalisis", "ReglaPalabrasMasUsadas"),
-    ("ReglaAnalisis", "ReglaConteoPalabras"),
-    ("ReglaAnalisis", "ReglaTiempoLectura")
-])
-def test_clase_hereda(module_members_elements, analizador_module, super_class_name, sub_class_name):
+@pytest.mark.parametrize("method_name", ["__init__", "analizar"])
+def test_clase_ReglaPalabrasMasUsadas_contiene_metodos(module_members_elements, method_name):
+    class_name = "ReglaPalabrasMasUsadas"
+    if class_name not in module_members_elements.keys():
+        pytest.fail(f"{class_name} class not defined")
+
+    assert method_name in module_members_elements[class_name].__dict__.keys()
+
+
+@pytest.mark.parametrize("method_name", ["__init__", "analizar"])
+def test_clase_ReglaConteoPalabras_contiene_metodos(module_members_elements, method_name):
+    class_name = "ReglaConteoPalabras"
+    if class_name not in module_members_elements.keys():
+        pytest.fail(f"{class_name} class not defined")
+
+    assert method_name in module_members_elements[class_name].__dict__.keys()
+
+
+@pytest.mark.parametrize("method_name", ["__init__", "analizar"])
+def test_clase_ReglaTiempoLectura_contiene_metodos(module_members_elements, method_name):
+    class_name = "ReglaTiempoLectura"
+    if class_name not in module_members_elements.keys():
+        pytest.fail(f"{class_name} class not defined")
+
+    assert method_name in module_members_elements[class_name].__dict__.keys()
+
+
+@pytest.mark.parametrize("method_name", ["__init__", "procesar"])
+def test_clase_Analizador_contiene_metodos(module_members_elements, method_name):
+    class_name = "Analizador"
+    if class_name not in module_members_elements.keys():
+        pytest.fail(f"{class_name} class not defined")
+
+    assert method_name in module_members_elements[class_name].__dict__.keys()
+
+
+def test_clase_ReglaAnalisis_es_abstracta(module_members_elements, analizador_module):
+    super_class_name = "ABC"
+    sub_class_name = "ReglaAnalisis"
     if super_class_name not in module_members_elements.keys() and \
             sub_class_name not in module_members_elements.keys():
         pytest.fail(f"{super_class_name} or {sub_class_name} not defined")
@@ -145,16 +175,41 @@ def test_clase_ReglaAnalisis_tiene_atributo_nombre(module_members_elements):
     assert "nombre" in fields
 
 
-@pytest.mark.parametrize("class_name, attribute_name", [
-    ("Analizador", "reglas"),
-    ("ReglaTiempoLectura", "TASA_LECTURA")
+@pytest.mark.parametrize("super_class_name, sub_class_name", [
+    ("ReglaAnalisis", "ReglaPalabrasMasUsadas"),
+    ("ReglaAnalisis", "ReglaConteoPalabras"),
+    ("ReglaAnalisis", "ReglaTiempoLectura")
 ])
-def test_clase_contiene_atributo(module_members_elements, class_name, attribute_name):
+def test_clases_reglas_heredan_de_ReglaAnalisis(module_members_elements, analizador_module, super_class_name,
+                                                sub_class_name):
+    if super_class_name not in module_members_elements.keys() and \
+            sub_class_name not in module_members_elements.keys():
+        pytest.fail(f"{super_class_name} or {sub_class_name} not defined")
+
+    assert issubclass(getattr(analizador_module, sub_class_name), getattr(analizador_module, super_class_name))
+
+
+def test_clase_ReglaTiempoLectura_contiene_constante(module_members_elements):
+    class_name = "ReglaTiempoLectura"
+    attribute_name = "TASA_LECTURA"
+
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} not defined")
 
     fields = dir(module_members_elements[class_name]())
     assert attribute_name in fields
+
+
+def test_clase_Analizador_contiene_atributo(module_members_elements):
+    class_name = "Analizador"
+    attribute_name = "reglas"
+
+    if class_name not in module_members_elements.keys():
+        pytest.fail(f"{class_name} not defined")
+
+    fields = dir(module_members_elements[class_name]())
+    assert attribute_name in fields
+
 
 # Test for the functionality of the elements of the module ------------------------------------------
 
