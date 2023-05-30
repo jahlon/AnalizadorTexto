@@ -3,3 +3,4 @@ venv
 .idea
 /analizador/entregas/
 /tests/resultados/
+.pytest_cache/
