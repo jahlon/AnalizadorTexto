@@ -13,4 +13,4 @@ if __name__ == "__main__":
     #     json.dump(regla._separar_palabras(texto), file)
 
     analizador = Analizador()
-    print(json.dumps(analizador.procesar(texto)))
+    print(json.dumps(analizador.procesar("a")))
