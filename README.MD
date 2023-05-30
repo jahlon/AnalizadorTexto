@@ -86,7 +86,8 @@ debes tener en cuenta lo siguiente:
 se lo asigna al atributo `nombre`.
 3. El método `_separar_palabras` de la clase `ReglaAnalisis` implementa la lógica para separar las palabras
 del texto recibido como parámetro y devolverlas como una lista. Las palabras no deben incluir puntuación. Por ejemplo, 
-si se separan las palabras del texto `Hola, ¿cómo estás?`, el resultado sería la lista `['Hola', 'cómo', 'estás']`.  
+si se separan las palabras del texto `Hola, ¿cómo estás?`, el resultado sería la lista `['Hola', 'cómo', 'estás']`.
+Cuando el texto está vacío `''`, el método retorna una lista vacía `[]`.
 >**Pista:** puedes utilizar los métodos `lower()`, `split()`, `strip()` y `replace()` de la clase `str`.
 4. La clase `ReglaPalabraMasUsada` debe inicializarse pasando como parámetro a la superclase el nombre 
 `'palabras_ordenadas'`. El método `analizar` debe retornar una lista de str con las 10 palabras más usadas del texto.  
