@@ -10,11 +10,13 @@ class ReglaAnalisis(ABC):
 
     @staticmethod
     def _separar_palabras(texto: str) -> list[str]:
-        texto_minuscula: str = texto.lower().replace("\n", " ")
-        palabras_con_puntuacion = texto_minuscula.split(" ")
         palabras = []
-        for palabra in palabras_con_puntuacion:
-            palabras.append(palabra.strip(".,?!¡¿"))
+        if len(texto) > 0:
+            texto_minuscula: str = texto.lower().replace("\n", " ")
+            palabras_con_puntuacion = texto_minuscula.split(" ")
+            for palabra in palabras_con_puntuacion:
+                palabras.append(palabra.strip(".,?!¡¿"))
+
         return palabras
 
     @abstractmethod
