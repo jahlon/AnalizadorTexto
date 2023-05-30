@@ -105,49 +105,85 @@ def test_modulo_contiene_clase_Analizador(module_members_elements):
     assert "Analizador" in module_members_elements.keys()
 
 
-@pytest.mark.parametrize("method_name", ["__init__", "_separar_palabras", "analizar"])
-def test_clase_ReglaAnalisis_contiene_metodos(module_members_elements, method_name):
+@pytest.mark.parametrize("method_name, parameters", [
+    ("__init__", ["self", "nombre"]),
+    ("_separar_palabras", ["texto"]),
+    ("analizar", ["texto"])
+])
+def test_clase_ReglaAnalisis_contiene_metodos(module_members_elements, method_name, parameters):
     class_name = "ReglaAnalisis"
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} class not defined")
 
-    assert method_name in module_members_elements[class_name].__dict__.keys()
+    class_elements = module_members_elements[class_name].__dict__
+    method_parameters = list(inspect.signature(class_elements[method_name]).parameters)
+
+    assert method_name in class_elements.keys() and \
+           all(param in method_parameters for param in parameters)
 
 
-@pytest.mark.parametrize("method_name", ["__init__", "analizar"])
-def test_clase_ReglaPalabrasMasUsadas_contiene_metodos(module_members_elements, method_name):
+@pytest.mark.parametrize("method_name, parameters", [
+    ("__init__", ["self"]),
+    ("analizar", ["self", "texto"])
+])
+def test_clase_ReglaPalabrasMasUsadas_contiene_metodos(module_members_elements, method_name, parameters):
     class_name = "ReglaPalabrasMasUsadas"
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} class not defined")
 
-    assert method_name in module_members_elements[class_name].__dict__.keys()
+    class_elements = module_members_elements[class_name].__dict__
+    method_parameters = list(inspect.signature(class_elements[method_name]).parameters)
+
+    assert method_name in class_elements.keys() and \
+           all(param in method_parameters for param in parameters)
 
 
-@pytest.mark.parametrize("method_name", ["__init__", "analizar"])
-def test_clase_ReglaConteoPalabras_contiene_metodos(module_members_elements, method_name):
+@pytest.mark.parametrize("method_name, parameters", [
+    ("__init__", ["self"]),
+    ("analizar", ["self", "texto"])
+])
+def test_clase_ReglaConteoPalabras_contiene_metodos(module_members_elements, method_name, parameters):
     class_name = "ReglaConteoPalabras"
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} class not defined")
 
-    assert method_name in module_members_elements[class_name].__dict__.keys()
+    class_elements = module_members_elements[class_name].__dict__
+    method_parameters = list(inspect.signature(class_elements[method_name]).parameters)
+
+    assert method_name in class_elements.keys() and \
+           all(param in method_parameters for param in parameters)
 
 
-@pytest.mark.parametrize("method_name", ["__init__", "analizar"])
-def test_clase_ReglaTiempoLectura_contiene_metodos(module_members_elements, method_name):
+@pytest.mark.parametrize("method_name, parameters", [
+    ("__init__", ["self"]),
+    ("analizar", ["self", "texto"])
+])
+def test_clase_ReglaTiempoLectura_contiene_metodos(module_members_elements, method_name, parameters):
     class_name = "ReglaTiempoLectura"
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} class not defined")
 
-    assert method_name in module_members_elements[class_name].__dict__.keys()
+    class_elements = module_members_elements[class_name].__dict__
+    method_parameters = list(inspect.signature(class_elements[method_name]).parameters)
+
+    assert method_name in class_elements.keys() and \
+           all(param in method_parameters for param in parameters)
 
 
-@pytest.mark.parametrize("method_name", ["__init__", "procesar"])
-def test_clase_Analizador_contiene_metodos(module_members_elements, method_name):
+@pytest.mark.parametrize("method_name, parameters", [
+    ("__init__", ["self"]),
+    ("procesar", ["self", "texto"])
+])
+def test_clase_Analizador_contiene_metodos(module_members_elements, method_name, parameters):
     class_name = "Analizador"
     if class_name not in module_members_elements.keys():
         pytest.fail(f"{class_name} class not defined")
 
-    assert method_name in module_members_elements[class_name].__dict__.keys()
+    class_elements = module_members_elements[class_name].__dict__
+    method_parameters = list(inspect.signature(class_elements[method_name]).parameters)
+
+    assert method_name in class_elements.keys() and \
+           all(param in method_parameters for param in parameters)
 
 
 def test_clase_ReglaAnalisis_es_abstracta(module_members_elements, analizador_module):
@@ -216,7 +252,9 @@ def test_clase_Analizador_contiene_atributo(module_members_elements):
 
 @pytest.mark.parametrize("text, expected", [
     (lazy_fixture("text_1"), {"de", "y", "se", "un", "en", "la", "a", "sus", "javier", "que"}),
-    (lazy_fixture("text_2"), {"este", "usted", "hola", "es", "un", "ejemplo", "para", "que", "practique", "puede"})
+    (lazy_fixture("text_2"), {"este", "usted", "hola", "es", "un", "ejemplo", "para", "que", "practique", "puede"}),
+    ("", set()),
+    ("a", {"a"})
 ])
 def test_regla_palabras_mas_usadas_analiza_texto(regla_palabras_ordenadas, text, expected):
     result = regla_palabras_ordenadas.analizar(text)
@@ -226,6 +264,8 @@ def test_regla_palabras_mas_usadas_analiza_texto(regla_palabras_ordenadas, text,
 @pytest.mark.parametrize("text, expected", [
     (lazy_fixture("text_1"), 281),
     (lazy_fixture("text_2"), 21),
+    ("a", 1),
+    ("", 0)
 ])
 def test_regla_conteo_palabras_analiza_texto(regla_conteo_palabras, text, expected):
     result = regla_conteo_palabras.analizar(text)
@@ -234,7 +274,9 @@ def test_regla_conteo_palabras_analiza_texto(regla_conteo_palabras, text, expect
 
 @pytest.mark.parametrize("text, expected", [
     (lazy_fixture("text_1"), (1, 10)),
-    (lazy_fixture("text_2"), (0, 5))
+    (lazy_fixture("text_2"), (0, 5)),
+    ("a", (0, 0)),
+    ("", (0, 0))
 ])
 def test_regla_tiempo_lectura_analiza_texto(regla_tiempo_lectura, text, expected):
     result = regla_tiempo_lectura.analizar(text)
@@ -247,7 +289,9 @@ def test_analizador_tiene_tres_reglas_despues_de_inicializado(analizador):
 
 @pytest.mark.parametrize("text, expected_words", [
     (lazy_fixture("text_1"), lazy_fixture("expected_words_1")),
-    (lazy_fixture("text_2"), lazy_fixture("expected_words_2"))
+    (lazy_fixture("text_2"), lazy_fixture("expected_words_2")),
+    ("", []),
+    ("a", ["a"])
 ])
 def test_regla_analisis_separa_palabras(regla_conteo_palabras, text, expected_words):
     result = regla_conteo_palabras._separar_palabras(text)
@@ -273,7 +317,9 @@ def test_nombre_regla_es_correcto(rule, expected_name):
         "palabras_ordenadas": ["este", "usted", "hola", "es", "un", "ejemplo", "para", "que", "practique", "puede"],
         "conteo_palabras": 21,
         "tiempo_lectura": (0, 5)
-    })
+    }),
+    ("", {"palabras_ordenadas": [], "conteo_palabras": 0, "tiempo_lectura": (0, 0)}),
+    ("a", {"palabras_ordenadas": ["a"], "conteo_palabras": 1, "tiempo_lectura": (0, 0)}),
 ])
 def test_analizador_analiza_texto(analizador, text, expected):
     result = analizador.procesar(text)
